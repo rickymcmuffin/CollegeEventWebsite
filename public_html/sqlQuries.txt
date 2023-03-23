@@ -1,8 +1,8 @@
-CREATE TABLE User( 
-	id: INT,
-	username: CHAR(20) NOT NULL, 
-	password: CHAR(20) NOT NULL,
-)
+CREATE TABLE user( 
+	id int NOT NULL,
+	username varchar(20) NOT NULL, 
+	password varchar(20) NOT NULL
+);
 
 CREATE TABLE University(
 	id: INT NOT NULL,
@@ -11,4 +11,4 @@ CREATE TABLE University(
 	description: TEXT,
 	
 	
-)
+);
