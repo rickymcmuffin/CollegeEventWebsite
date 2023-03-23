@@ -1,0 +1,14 @@
+CREATE TABLE User( 
+	id: INT,
+	username: CHAR(20) NOT NULL, 
+	password: CHAR(20) NOT NULL,
+)
+
+CREATE TABLE University(
+	id: INT NOT NULL,
+	name: CHAR(20) NOT NULL, 
+	numStudents: INT,
+	description: TEXT,
+	
+	
+)
