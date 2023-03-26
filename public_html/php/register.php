@@ -39,8 +39,20 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	}
 	$result = mysqli_query($conn, $query);
 	if(!$result){
-		return 'Error: ' . mysqli_error($conn);
+		echo 'Error: ' . mysqli_error($conn);
+		exit();
 	}
+
+	$user = mysqli_fetch_all($result, MYSQLI_ASSOC);
+	if(empty($user)){
+		echo 'Error ' . mysqli_error($conn);
+		exit();
+	}
+
+	$_SESSION['username'] = $user[0]['username'];
+	$_SESSION['userId'] = $user[0]['id'];
+
+	header('Location: ../dashboard/dashboard.html');
 } else {
 	echo 'error';
 	exit();
