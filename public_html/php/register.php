@@ -13,8 +13,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		return $data;
 	}
 	// validates username and password
-	$uname = validate($uname);
-	$pass = validate($pass);
+	$uname = validate($_POST['username']);
+	$pass = validate($_POST['password']);
 
 	// error if username or password is not input
 	if (empty($uname)) {
@@ -30,20 +30,23 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 				WHERE username='$uname'";
 	// inserts new user
 	$query = "INSERT INTO user (username, password)
-			VALUES ('username', 'password')";
+			VALUES ('$uname', '$pass')";
 	
 	$userRes = mysqli_query($conn, $userQ);
 	if(mysqli_num_rows($userRes) >= 1){
 		header('Location: ../index.html?error=User already exists');
 		exit();
 	}
+
 	$result = mysqli_query($conn, $query);
 	if(!$result){
 		echo 'Error: ' . mysqli_error($conn);
 		exit();
 	}
 
-	$user = mysqli_fetch_all($result, MYSQLI_ASSOC);
+	$userRes = mysqli_query($conn, $userQ);
+
+	$user = mysqli_fetch_all($userRes, MYSQLI_ASSOC);
 	if(empty($user)){
 		echo 'Error ' . mysqli_error($conn);
 		exit();
