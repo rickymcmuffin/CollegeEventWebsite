@@ -26,10 +26,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	}
 	// selects user with $uname 
 	$userQ = "SELECT * 
-				FROM user 
+				FROM User 
 				WHERE username='$uname'";
 	// inserts new user
-	$query = "INSERT INTO user (username, password)
+	$query = "INSERT INTO User (username, password)
 			VALUES ('$uname', '$pass')";
 	
 	$userRes = mysqli_query($conn, $userQ);
@@ -55,7 +55,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	$_SESSION['username'] = $user[0]['username'];
 	$_SESSION['userId'] = $user[0]['id'];
 
-	header('Location: ../dashboard/dashboard.html');
+	header('Location: ../dashboard/dashboard.php');
 } else {
 	echo 'error';
 	exit();

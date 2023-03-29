@@ -1,15 +1,50 @@
-CREATE TABLE user( 
+CREATE TABLE User( 
 	id int NOT NULL AUTO_INCREMENT,
 	username varchar(20) NOT NULL, 
 	password varchar(20) NOT NULL,
+	univId int FOREIGN KEY REFERENCES University(id), /* new field */
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE University(
-	id: INT NOT NULL,
-	name: CHAR(20) NOT NULL, 
-	numStudents: INT,
-	description: TEXT,
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL, 
+	numStudents INT,
+	description TEXT,
+	location VARCHAR(100),
+	ownerId INT UNIQUE FOREIGN KEY REFERENCES University(id),
+	PRIMARY KEY (id)
 	
-	
+);
+
+CREATE TABLE SuperAdmin(
+	id INT NOT NULL FOREIGN KEY REFERENCES User(id), 
+	PRIMARY KEY (id)	
+);
+
+CREATE TABLE Admin(
+	id INT NOT NULL FOREIGN KEY REFERENCES User(id),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE Event(
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL,
+	category VARCHAR(20),
+	description TEXT,
+	time DATETIME DEFAULT ON UPDATE, 
+	location VARCHAR(100),
+	phoneNumber VARCHAR(20),
+	email VARCHAR(320),
+	type ENUM(public, private, rso),
+	rsoId INT REFERENCES RSO(id);
+	univId INT NOT NULL REFERENCES University(id),
+	adminId INT NOT NULL FOREIGN KEY REFERENCES Admin(id),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE RSO(
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL,
+	PRIMARY KEY (id)
 );

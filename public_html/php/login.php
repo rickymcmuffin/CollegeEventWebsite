@@ -28,7 +28,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		exit();
 	} else {
 		$query = "SELECT * 
-				FROM user 
+				FROM User 
 				WHERE username='$uname' AND password='$pass'";
 
 		$result = mysqli_query($conn, $query);
@@ -44,7 +44,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 			$_SESSION['password'] = $row['password'];
 			$_SESSION['id'] = $row['id'];
 
-			header('Location: ../dashboard/dashboard.html');
+			header('Location: ../dashboard/dashboard.php');
 
 		} else {
 			header('Location: ../index.html?error=Incorrect username or password');
