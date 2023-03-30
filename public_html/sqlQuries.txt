@@ -2,8 +2,9 @@ CREATE TABLE User(
 	id int NOT NULL AUTO_INCREMENT,
 	username varchar(20) NOT NULL, 
 	password varchar(20) NOT NULL,
-	univId int FOREIGN KEY REFERENCES University(id), /* new field */
-	PRIMARY KEY (id)
+	univId int, /* new field */
+	PRIMARY KEY (id),
+	FOREIGN KEY (univId) REFERENCES University(id)
 );
 
 CREATE TABLE University(
@@ -12,19 +13,22 @@ CREATE TABLE University(
 	numStudents INT,
 	description TEXT,
 	location VARCHAR(100),
-	ownerId INT UNIQUE FOREIGN KEY REFERENCES University(id),
-	PRIMARY KEY (id)
+	ownerId INT UNIQUE, 
+	PRIMARY KEY (id),
+	FOREIGN KEY (ownerId) REFERENCES SuperAdmin(id)
 	
 );
 
 CREATE TABLE SuperAdmin(
-	id INT NOT NULL FOREIGN KEY REFERENCES User(id), 
-	PRIMARY KEY (id)	
+	id INT NOT NULL, 
+	PRIMARY KEY (id),	
+	FOREIGN KEY (id) REFERENCES User(id)
 );
 
 CREATE TABLE Admin(
-	id INT NOT NULL FOREIGN KEY REFERENCES User(id),
-	PRIMARY KEY (id)
+	id INT NOT NULL, 
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES User(id)
 );
 
 CREATE TABLE Event(
@@ -32,19 +36,36 @@ CREATE TABLE Event(
 	name VARCHAR(20) NOT NULL,
 	category VARCHAR(20),
 	description TEXT,
-	time DATETIME DEFAULT ON UPDATE, 
+	time DATETIME, 
 	location VARCHAR(100),
 	phoneNumber VARCHAR(20),
 	email VARCHAR(320),
-	type ENUM(public, private, rso),
-	rsoId INT REFERENCES RSO(id);
-	univId INT NOT NULL REFERENCES University(id),
-	adminId INT NOT NULL FOREIGN KEY REFERENCES Admin(id),
-	PRIMARY KEY (id)
+	type ENUM('public', 'private', 'rso'),
+	rsoId INT,
+	univId INT NOT NULL, 
+	adminId INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (univId) REFERENCES University(id),
+	FOREIGN KEY (adminId) REFERENCES Admin(id),
+	FOREIGN KEY (rsoId) REFERENCES RSO(id)
 );
 
 CREATE TABLE RSO(
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(20) NOT NULL,
-	PRIMARY KEY (id)
+	adminId INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (adminId) REFERENCES Admin(id)
 );
+
+CREATE TABLE Comment(
+	id INT NOT NULL AUTO_INCREMENT,
+	text TEXT,
+	userId INT NOT NULL,
+	eventId INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (userId) REFERENCES User(id),
+	FOREIGN KEY (eventId) REFERENCES Event(id)
+);
+
+INSERT INTO University (name) VALUES ('UCF');
