@@ -42,7 +42,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 			
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
-			$_SESSION['id'] = $row['id'];
+			$_SESSION['userId'] = $row['id'];
 
 			header('Location: ../dashboard/dashboard.php');
 
