@@ -37,7 +37,7 @@ session_start();
 			<label>UnivName</label>
 		</div>
 	</div>
-	<div class="invisible" id="eventTemplate">
+	<div class="invisible clickable" id="eventTemplate">
 		<label>you are not</label>
 		<label>supposed to see this</label>
 	</div>

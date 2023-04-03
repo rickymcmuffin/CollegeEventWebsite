@@ -1,5 +1,3 @@
-console.log("dashboard.js loaded");
-
 var fuck;
 var publicParent;
 var privateParent;
@@ -16,6 +14,8 @@ window.onload = function () {
     showEvent("poop", "crapU", "public", 11);
     //document.getElementById("label1").value = "You did it!";
   });
+
+  searchEvents();
 };
 
 // type must be "public", "private", or "rso".
@@ -30,5 +30,31 @@ function showEvent(name, university, type, id) {
   newEvent.children[1].innerHTML = university;
   newEvent.name = id;
 
+  newEvent.addEventListener("click", function(){
+	window.location = "/dashboard/eventpage.php?e=" + id;
+  });
+
   publicParent.appendChild(newEvent);
 }
+
+// doesn't actually search yet
+function searchEvents() {
+  const url = "/php/readEvents.php";
+  while (publicParent.children.length > 0) {
+    publicParent.removeChild(publicParent.firstChild);
+  }
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("we in da fetch");
+      if (res.value == 0) {
+        return alert(res.error);
+      }
+      for (const event of res.data) {
+        showEvent(event.name, event.univId, event.type, event.id);
+      }
+    });
+}
+
+
