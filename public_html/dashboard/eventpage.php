@@ -1,8 +1,12 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 
  <html>
 
 	<body>
-		<p>HAHAHHAHA</p>
+		<p><?php echo $_GET['e']?></p>
 	</body>
  </html>

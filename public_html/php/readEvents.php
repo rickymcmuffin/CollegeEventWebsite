@@ -6,6 +6,13 @@ header("Access-Control-Allow-Methods: POST");
 session_start();
 include 'connection.php';
 
+function exitWithError(){
+	exit(json_encode([
+				'value' => 0,
+				'error' => mysqli_error($conn),
+				'publicData' => null,
+			]));
+}
 
 if(isset($_SESSION['username']) && isset($_SESSION['userId'])){
 	
@@ -29,11 +36,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['userId'])){
 		$result = mysqli_query($conn, $publicQuery);
 
 		if(!$result){
-			exit(json_encode([
-				'value' => 0,
-				'error' => mysqli_error($conn),
-				'data' => null,
-			]));
+			exitWithError();	
 		}
 
 		$events = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -43,7 +46,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['userId'])){
 		exit(json_encode([
 			'value' => 1,
 			'error' => null,
-			'data' => $events,
+			'publicData' => $events,
 		]));
 	//}
 
