@@ -8,13 +8,21 @@ window.onload = function () {
 	privateParent = document.getElementById("privateEventList");
 	rsoParent = document.getElementById("rsoEventList");
 
-
+	fetch("/php/isAdmin.php")
+		.then((res) => res.json())
+		.then((res) => {
+			console.log("we in da fetch 0: " + res.Admin);
+			if (res.Admin == 1) {
+				document.getElementById("newEvent").removeAttribute("disabled");
+			}
+		});
 
 	searchEvents();
 };
 
 // type must be "public", "private", or "rso".
-function showEvent(name, university, type, id) {
+function showEvent(name, type, id) {
+	console.log("ohyea");
 	const newEvent = document
 		.getElementById("eventTemplate")
 		.cloneNode((deep = true));
@@ -26,18 +34,19 @@ function showEvent(name, university, type, id) {
 	newEvent.name = id;
 
 	newEvent.addEventListener("click", function () {
-		window.location = "/dashboard/eventpage.php?e=" + id;
+		window.location = "/dashboard/eventpage.php?id=" + id;
 	});
-
-	publicParent.appendChild(newEvent);
+	if (type == "public")
+		publicParent.appendChild(newEvent);
+	if (type == "private")
+		privateParent.appendChild(newEvent);
+	if (type == "rso")
+		rsoParent.appendChild(newEvent);
 }
 
 // doesn't actually search yet
 function searchEvents() {
 	const url = "/php/readEvents.php";
-	while (publicParent.children.length > 0) {
-		publicParent.removeChild(publicParent.firstChild);
-	}
 
 	fetch(url)
 		.then((res) => res.json())
@@ -47,7 +56,13 @@ function searchEvents() {
 				return alert(res.error);
 			}
 			for (const event of res.publicData) {
-				showEvent(event.name, event.univId, event.type, event.id);
+				showEvent(event.name, event.type, event.id);
+			}
+			for (const event of res.privateData) {
+				showEvent(event.name, event.type, event.id);
+			}
+			for (const event of res.rsoData) {
+				showEvent(event.name, event.type, event.id);
 			}
 		});
 }

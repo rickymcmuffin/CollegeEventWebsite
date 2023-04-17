@@ -6,10 +6,10 @@ header("Access-Control-Allow-Methods: POST");
 session_start();
 include 'connection.php';
 
-function exitWithError(){
+function exitWithError($errorMessage){
 	exit(json_encode([
 				'value' => 0,
-				'error' => mysqli_error($conn),
+				'error' => $errorMessage,
 				'publicData' => null,
 			]));
 }
@@ -17,40 +17,32 @@ function exitWithError(){
 if(isset($_SESSION['username']) && isset($_SESSION['userId'])){
 	
 
-	$json = file_get_contents('php://input');
-	$data = json_decode($json);
-
-	/*if((!is_object($data))){
-		exit(json_encode([
-			'value' => 0,
-			'error' => 'Recieved JSON is improperly formatted',
-			'data' => null,
-		]));
-	}*/
-
-
-	//if(strcmp($_SESSION['userId'],$data->userId) == 0){
-		$publicQuery = "SELECT * FROM Event;";
-
+		$publicQuery = "SELECT * FROM Event WHERE type='public'";
+		$privateQuery = "SELECT * FROM Event WHERE type='private'";
+		$rsoQuery = "SELECT * FROM Event WHERE type='rso'";
 		
-		$result = mysqli_query($conn, $publicQuery);
+		$publicResult = mysqli_query($conn, $publicQuery);
+		$privateResult = mysqli_query($conn, $privateQuery);
+		$rsoResult = mysqli_query($conn, $rsoQuery);
 
-		if(!$result){
-			exitWithError();	
+		if(!$publicResult || !$privateResult || !$rsoResult){
+			exitWithError("query error");	
 		}
 
-		$events = mysqli_fetch_all($result, MYSQLI_ASSOC);
-		if(empty($events)){
-			echo "frickity frackity";
-		}	
+		$publicEvents = mysqli_fetch_all($publicResult, MYSQLI_ASSOC);
+		$privateEvents = mysqli_fetch_all($privateResult, MYSQLI_ASSOC);
+		$rsoEvents = mysqli_fetch_all($rsoResult, MYSQLI_ASSOC);
+
 		exit(json_encode([
 			'value' => 1,
 			'error' => null,
-			'publicData' => $events,
+			'publicData' => $publicEvents,
+			'privateData' => $privateEvents,
+			'rsoData' => $rsoEvents
 		]));
-	//}
+	
 
+} else {
+	header("Location: /index.html");
+	exit();
 }
-
-
-?>

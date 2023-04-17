@@ -6,9 +6,7 @@ include "connection.php";
 echo "starting\n";
 
 
-
 if (isset($_POST['username']) && isset($_POST['password'])) {
-	echo "test\n";
 	function validate($data)
 	{
 		$data = trim($data);
@@ -34,18 +32,30 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		$result = mysqli_query($conn, $query);
 
 
-		if(mysqli_num_rows($result) == 1){
+		if (mysqli_num_rows($result) == 1) {
 
 			$row = mysqli_fetch_assoc($result);
 			echo 'Logged in';
 
-			
+
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
 			$_SESSION['userId'] = $row['id'];
 
-			header('Location: ../dashboard/dashboard.php');
+			$query = "SELECT * 
+				FROM Admin 
+				WHERE id=" . $_SESSION['userId'];
+			$result = mysqli_query($conn, $query);
+			$_SESSION['Admin'] = mysqli_num_rows($result);
 
+			$query = "SELECT * 
+				FROM SuperAdmin 
+				WHERE id=" . $_SESSION['userId'];
+			$result = mysqli_query($conn, $query);
+			$_SESSION['SuperAdmin'] = mysqli_num_rows($result);
+
+
+			header('Location: ../dashboard/dashboard.php');
 		} else {
 			header('Location: ../index.html?error=Incorrect username or password');
 			exit();

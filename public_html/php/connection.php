@@ -1,5 +1,7 @@
 <?php
 
+//echo "why are you here?";
+
 $credentials = parse_ini_file('../../dbConnection.ini');
 
 $dbhost = $credentials['host'];

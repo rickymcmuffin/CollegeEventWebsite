@@ -68,4 +68,18 @@ CREATE TABLE Comment(
 	FOREIGN KEY (eventId) REFERENCES Event(id)
 );
 
+CREATE TABLE IsInRSO(
+	id INT NOT NULL AUTO_INCREMENT,
+	userId INT NOT NULL,
+	rsoId INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (userId) REFERENCES User(id),
+	FOREIGN KEY (rsoId) REFERENCES RSO(id)
+);
+
 INSERT INTO University (name) VALUES ('UCF');
+
+INSERT INTO RSO (name, adminId) VALUES ('Archery', 1);
+INSERT INTO RSO (name, adminId) VALUES ('Chess', 2);
+INSERT INTO Admin (id) VALUES (2);
+
