@@ -34,18 +34,36 @@ if (isset($_SESSION['univId'])) {
 
 <body>
 	<p style="color:green"><?php echo $_GET['success']; ?></p>
-	<p style="color:red"><?php echo $_GET['error']; ?></p>
+	<p class="error"><?php echo $_GET['error']; ?></p>
 
 	<h1><?php echo "Hello " . $_SESSION['username']; ?></h1><br>
 	<h4><a href="/php/logout.php">Logout</a></h4>
 	<h4><a href="rsos.php">RSOs</a></h4>
 
-	<form action="/php/joinUniversity.php" method="get">
+	<form id = "joinUniv" action="/php/joinUniversity.php" method="get">
 		<label>Join University</label><br>
 		<input type="text" name="name" placeholder="University"></input>
 		<button type="submit">Submit</button>
 	</form>
 
+	<button id="newUniv">New University</button>
+
+	<form id="formUniv" class="invisible" action="/php/newUniversity.php" method="post">
+		<label>University Name</label><br>
+		<input type="text" name="name" placeholder="Name"></input><br>
+		
+		<label>Number of Students</label><br>
+		<input type="number" name="numStudents"></input><br>
+
+		<label>Description</label><br>
+		<input type="text" name="description" placeholder="Description"></input><br>
+
+		<label>Location</label><br>
+		<input type="text" name="location" placeholder="Category"></input><br>
+
+		<button type="submit">Submit</button>
+
+	</form>
 
 	<button id="newEvent" disabled>New Event</button>
 
@@ -85,6 +103,8 @@ if (isset($_SESSION['univId'])) {
 		<button type="submit">Create</button>
 
 	</form>
+	<br>
+	<button id="yourUniv" disabled>Your University</button>
 
 	<h2>Public Events:</h2><br>
 	<div id="publicEventList">
@@ -95,7 +115,7 @@ if (isset($_SESSION['univId'])) {
 	<h2>RSO Events:</h2><br>
 	<div id="rsoEventList">
 	</div>
-	<div class="invisible errorText" id="eventTemplate">
+	<div class="invisible" id="eventTemplate">
 		<label class="clickable">you are not supposed to see this</label>
 	</div>
 

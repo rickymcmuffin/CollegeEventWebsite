@@ -84,6 +84,12 @@ FOR EACH ROW
 INSERT INTO Admin (id)
 VALUES (NEW.adminId);
 
+CREATE TRIGGER BeforeUnivInsert BEFORE INSERT
+ON University 
+FOR EACH ROW
+INSERT INTO SuperAdmin (id)
+VALUES (NEW.ownerId);
+
 DELIMITER //
 CREATE TRIGGER BeforeAdminDelete BEFORE DELETE 
 ON Admin 

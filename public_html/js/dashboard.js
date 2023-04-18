@@ -11,15 +11,29 @@ window.onload = function () {
 	fetch("/php/isAdmin.php")
 		.then((res) => res.json())
 		.then((res) => {
-			console.log("we in da fetch 0: " + res.Admin);
+			console.log("superadmin: " + res.SuperAdmin);
 			if (res.Admin == 1) {
 				document.getElementById("newEvent").removeAttribute("disabled");
+			}
+			if(res.SuperAdmin == 1){
+				console.log("GAAHHH");
+				document.getElementById("newUniv").innerHTML = "Edit University";
+			}
+			if(res.univName != null){
+				document.getElementById("yourUniv").removeAttribute("disabled");
+				document.getElementById("yourUniv").innerHTML = res.univName;
+				document.getElementById("yourUniv").addEventListener("click", function(){
+					window.location = "universitypage.php?id=" + res.univId;
+				});
 			}
 		});
 
 	document.getElementById("newEvent").addEventListener("click", function(){
 		showForm();
-	})
+	});
+	document.getElementById("newUniv").addEventListener("click", function(){
+		showUnivForm();
+	});
 	searchEvents();
 };
 
@@ -76,6 +90,16 @@ function searchEvents() {
 function showForm(){
 	console.log("button clicked");
 	const form = document.getElementById("formEvent");
+	if(form.classList.contains("invisible")){
+		form.classList.remove("invisible");
+	} else {
+		form.classList.add("invisible");
+	}
+}
+
+function showUnivForm(){
+	console.log("button clicked");
+	const form = document.getElementById("formUniv");
 	if(form.classList.contains("invisible")){
 		form.classList.remove("invisible");
 	} else {

@@ -4,11 +4,14 @@
 
 .clickable {
 	cursor: pointer;
-	color: red;
 }
 
-.errorText {
+.error {
 	color: red;
 	cursor: pointer;
 
+}
+
+.success {
+	color: green;
 }

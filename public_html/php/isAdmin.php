@@ -10,4 +10,6 @@ include 'connection.php';
 exit(json_encode([
 	'Admin' => $_SESSION['Admin'],
 	'SuperAdmin' => $_SESSION['SuperAdmin'],
+	'univId' => $_SESSION['univId'],
+	'univName' => $_SESSION['univName'],
 ]));

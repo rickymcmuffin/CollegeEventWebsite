@@ -18,10 +18,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 	// error if username or password is not input
 	if (empty($uname)) {
-		header('Location: ../index.html?error=Username is required');
+		header('Location: ../index.php?error=Username is required');
 		exit();
 	} else if (empty($pass)) {
-		header('Location: ../index.html?error=Password is required');
+		header('Location: ../index.php?error=Password is required');
 		exit();
 	}
 	// selects user with $uname 
@@ -34,7 +34,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	
 	$userRes = mysqli_query($conn, $userQ);
 	if(mysqli_num_rows($userRes) >= 1){
-		header('Location: ../index.html?error=User already exists');
+		header('Location: ../index.php?error=User already exists');
 		exit();
 	}
 

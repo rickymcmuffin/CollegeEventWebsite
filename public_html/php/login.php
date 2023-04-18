@@ -19,10 +19,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 	if (empty($uname)) {
 
-		header("Location: ../index.html?error=Username is required");
+		header("Location: ../index.php?error=Username is required");
 		exit();
 	} else if (empty($pass)) {
-		header("Location: ../index.html?error=Password is required");
+		header("Location: ../index.php?error=Password is required");
 		exit();
 	} else {
 		$query = "SELECT * 
@@ -70,7 +70,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 			header('Location: ../dashboard/dashboard.php');
 		} else {
-			header('Location: ../index.html?error=Incorrect username or password');
+			header('Location: ../index.php?error=Incorrect username or password');
 			exit();
 		}
 	}
