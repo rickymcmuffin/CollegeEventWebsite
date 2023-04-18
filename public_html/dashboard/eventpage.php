@@ -18,7 +18,6 @@ $eventQuery = "SELECT * FROM Event WHERE id='$eventId'";
 
 $eventResult = mysqli_query($conn, $eventQuery);
 
-echo "brother: ". mysqli_num_rows($eventResult);
 if(mysqli_num_rows($eventResult) != 1){
 	header('Location: /error.php?error=event not found');
 }
