@@ -15,18 +15,25 @@ function exitWithError($errorMessage){
 }
 
 if(isset($_SESSION['username']) && isset($_SESSION['userId'])){
-	
+
+		$userId = $_SESSION['userId'];
+		$univId = $_SESSION['univId'];
 
 		$publicQuery = "SELECT * FROM Event WHERE type='public'";
-		$privateQuery = "SELECT * FROM Event WHERE type='private'";
-		$rsoQuery = "SELECT * FROM Event WHERE type='rso'";
+		$privateQuery = "SELECT * FROM Event WHERE type='private'
+										AND univId='$univId'";
+		$rsoQuery = "SELECT * FROM Event e WHERE e.type='rso'
+									AND EXISTS (SELECT *
+												FROM IsInRSO i
+												WHERE e.rsoId = i.rsoId
+												AND i.userId = $userId)";
 		
 		$publicResult = mysqli_query($conn, $publicQuery);
 		$privateResult = mysqli_query($conn, $privateQuery);
 		$rsoResult = mysqli_query($conn, $rsoQuery);
 
 		if(!$publicResult || !$privateResult || !$rsoResult){
-			exitWithError("query error");	
+			exitWithError(mysqli_error($conn));	
 		}
 
 		$publicEvents = mysqli_fetch_all($publicResult, MYSQLI_ASSOC);
@@ -43,6 +50,6 @@ if(isset($_SESSION['username']) && isset($_SESSION['userId'])){
 	
 
 } else {
-	header("Location: /index.html");
+	header("Location: /index.php");
 	exit();
 }

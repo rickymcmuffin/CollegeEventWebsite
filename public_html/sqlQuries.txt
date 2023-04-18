@@ -2,7 +2,7 @@ CREATE TABLE User(
 	id int NOT NULL AUTO_INCREMENT,
 	username varchar(20) NOT NULL, 
 	password varchar(20) NOT NULL,
-	univId int, /* new field */
+	univId int, 
 	PRIMARY KEY (id),
 	FOREIGN KEY (univId) REFERENCES University(id)
 );
@@ -106,3 +106,5 @@ INSERT INTO RSO (name, adminId) VALUES ('Archery', 1);
 INSERT INTO RSO (name, adminId) VALUES ('Chess', 2);
 INSERT INTO Admin (id) VALUES (2);
 
+INSERT INTO Event (name, category, description, time, date, location, number, email, type, rsoId, univId, adminId)
+			VALUES ('bobshowcase', 'afd', ', '$time', '$date', '$location', '$number', '$email', '$type', '$rsoId', '$univId', '$userId')

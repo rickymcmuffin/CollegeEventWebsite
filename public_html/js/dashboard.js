@@ -25,6 +25,7 @@ window.onload = function () {
 
 // type must be "public", "private", or "rso".
 function showEvent(name, type, id) {
+	console.log("fuck is ogin on?")
 	console.log("ohyea");
 	const newEvent = document
 		.getElementById("eventTemplate")
@@ -33,8 +34,10 @@ function showEvent(name, type, id) {
 	newEvent.classList.remove("invisible");
 	console.log(newEvent.children[0].innerHTML);
 	newEvent.children[0].innerHTML = name;
-	newEvent.children[1].innerHTML = id;
+	//newEvent.children[1].innerHTML = id;
 	newEvent.name = id;
+
+
 
 	newEvent.addEventListener("click", function () {
 		window.location = "/dashboard/eventpage.php?id=" + id;

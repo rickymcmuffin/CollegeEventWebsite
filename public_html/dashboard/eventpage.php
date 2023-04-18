@@ -7,7 +7,7 @@ include "../php/connection.php";
 
 
 if (!isset($_GET['id'])) {
-	header('Location: /index.html?error=aint no id');
+	header('Location: /dashboard/dashboard.php');
 	exit();
 }
 
@@ -47,7 +47,9 @@ $adminRow = mysqli_fetch_assoc($adminResult);
 
 	<h3>
 		<?php 
-		echo "Time: ". $row['category'] . "<br>";
+		echo "Category: ". $row['category'] . "<br>";
+		echo "Date: ". $row['date'] . "<br>";
+		echo "Time: ". $row['time'] . "<br>";
 		echo "Location: ". $row['location']. "<br>";
 		echo "Phone Number: ". $row['phoneNumber']. "<br>";
 		echo "Email: ".$row['email']."<br>";

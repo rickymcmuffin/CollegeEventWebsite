@@ -67,6 +67,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 		'otherData' => $otherRSOs,
 	]));
 } else {
-	header("Location: /index.html");
+	header("Location: /index.php");
 	exit();
 }

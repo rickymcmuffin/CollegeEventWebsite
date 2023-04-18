@@ -19,6 +19,9 @@ if(!isset($_SESSION['univId'])){
 </head>
 
 <body>
+	<p style="color:green"><?php echo $_GET['success']; ?></p>
+	<p style="color:red"><?php echo $_GET['error']; ?></p>
+	
 	<h4><a href="/php/logout.php">Logout</a></h4>
 	<h4><a href="dashboard.php">Dashboard</a></h4>
 	<button id="newRSO">New RSO</button>

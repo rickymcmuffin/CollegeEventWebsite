@@ -2,13 +2,23 @@
 session_start();
 include "../php/connection.php";
 
+if(!isset($_SESSION['userId'])){
+	header("Location: /index.php");
+}
+
 if ($_SESSION['Admin']) {
-	echo "You are admin";
+	echo "You are admin<br>";
 }
 
 if ($_SESSION['SuperAdmin']) {
-	echo "You are superadmin";
+	echo "You are superadmin<br>";
 }
+
+if (isset($_SESSION['univId'])) {
+	echo "You are in " . $_SESSION['univName'] ."<br>";
+}
+
+
 
 ?>
 
@@ -23,17 +33,28 @@ if ($_SESSION['SuperAdmin']) {
 </head>
 
 <body>
+	<p style="color:green"><?php echo $_GET['success']; ?></p>
+	<p style="color:red"><?php echo $_GET['error']; ?></p>
+
 	<h1><?php echo "Hello " . $_SESSION['username']; ?></h1><br>
 	<h4><a href="/php/logout.php">Logout</a></h4>
 	<h4><a href="rsos.php">RSOs</a></h4>
+
+	<form action="/php/joinUniversity.php" method="get">
+		<label>Join University</label><br>
+		<input type="text" name="name" placeholder="University"></input>
+		<button type="submit">Submit</button>
+	</form>
+
+
 	<button id="newEvent" disabled>New Event</button>
 
-	<form id="formEvent" class="invisible" action="/php/newEven.php" method="post">
+	<form id="formEvent" class="invisible" action="/php/newEvent.php" method="post">
 		<label>Event Name</label><br>
 		<input type="text" name="name" placeholder="Name"></input><br>
 
 		<label>Category</label><br>
-		<input type="text" name="cateogry" placeholder="Category"></input><br>
+		<input type="text" name="category" placeholder="Category"></input><br>
 
 		<label>Description</label><br>
 		<input type="text" name="description" placeholder="Description"></input><br>
@@ -62,7 +83,7 @@ if ($_SESSION['SuperAdmin']) {
 		<label>RSO</label><br>
 
 		<button type="submit">Create</button>
-		
+
 	</form>
 
 	<h2>Public Events:</h2><br>
@@ -74,9 +95,8 @@ if ($_SESSION['SuperAdmin']) {
 	<h2>RSO Events:</h2><br>
 	<div id="rsoEventList">
 	</div>
-	<div class="invisible" id="eventTemplate">
-		<label class="clickable">you are not</label>
-		<label class="clickable">supposed to see this</label>
+	<div class="invisible errorText" id="eventTemplate">
+		<label class="clickable">you are not supposed to see this</label>
 	</div>
 
 </body>

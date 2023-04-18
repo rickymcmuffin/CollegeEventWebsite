@@ -42,6 +42,17 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 			$_SESSION['password'] = $row['password'];
 			$_SESSION['userId'] = $row['id'];
 
+			if ($row['univId'] != null) {
+				$_SESSION['univId'] = $row['univId'];
+
+				$query = "SELECT * 
+					FROM University 
+					WHERE id=" . $_SESSION['univId'];
+				$result = mysqli_query($conn, $query);
+				$univ = mysqli_fetch_assoc($result);
+				$_SESSION['univName'] = $univ['name'];
+			}
+
 			$query = "SELECT * 
 				FROM Admin 
 				WHERE id=" . $_SESSION['userId'];
@@ -53,6 +64,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 				WHERE id=" . $_SESSION['userId'];
 			$result = mysqli_query($conn, $query);
 			$_SESSION['SuperAdmin'] = mysqli_num_rows($result);
+
+
 
 
 			header('Location: ../dashboard/dashboard.php');

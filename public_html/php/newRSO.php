@@ -15,6 +15,12 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 	echo "where are we?";
 	$username = $_SESSION['username'];
 	$userId = $_SESSION['userId'];
+	
+	$query = "SELECT *
+			FROM Admin 
+			WHERE id=$userId";
+
+
 	// get all users that were input
 	$query = "SELECT *
 				FROM User
@@ -28,14 +34,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 
 	if (!$result) {
 		echo "in1";
-		echo mysqli_error($conn);
-		//header("Location: /dashboard/rsos.php?error=query error");
+		header("Location: /dashboard/rsos.php?error=" . mysqli_error($conn));
 		exit();
 	}
 
 	if (mysqli_num_rows($result) < 4) {
 		echo "in2";
-		header("Location: /dashboard/rsos.php?error=One or mnore users does not exist");
+		header("Location: /dashboard/rsos.php?error=One or more users does not exist");
 		exit();
 	} else if (mysqli_num_rows($result) > 4) {
 		echo "in3";
@@ -51,8 +56,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 	$query = "INSERT INTO RSO (name, adminId) VALUES ('$rsoName', $userId)";
 	$result = mysqli_query($conn, $query);
 	if (!$result){
-		echo mysqli_error($conn);
-		//header("Location: /dashboard/rsos.php?error=query error2");
+		header("Location: /dashboard/rsos.php?error=" . mysqli_error(($conn)));
 		exit();
 	}
 
@@ -62,9 +66,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 	$result = mysqli_query($conn, $query);
 	echo "darnit2";
 	if (!$result){
-		echo mysqli_error($conn);
-		echo "darnit";
-		//header("Location: /dashboard/rsos.php?error=query error3");
+		header("Location: /dashboard/rsos.php?error=" . mysqli_error($conn));
 		exit();
 	}
 	$row = mysqli_fetch_assoc($result);
@@ -84,9 +86,9 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 			exitWithError(mysqli_error($conn));
 	}
 	$_SESSION['Admin'] = 1;
-	header("Location: /dashboard/rsos.php?success=1");
+	header("Location: /dashboard/rsos.php?success=Success");
 	exit();
 } else {
-	header("Location: /index.html");
+	header("Location: /index.php");
 	exit();
 }
