@@ -2,6 +2,10 @@
 session_start();
 include "../php/connection.php";
 
+if(!isset($_SESSION['univId'])){
+	header("Location: dashboard.php?error=Must be in University to access RSOs");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +19,32 @@ include "../php/connection.php";
 </head>
 
 <body>
+	<h4><a href="/php/logout.php">Logout</a></h4>
+	<h4><a href="dashboard.php">Dashboard</a></h4>
 	<button id="newRSO">New RSO</button>
 
-	<div id = "createRSO" class="invisible">
-		
-	</div>
+	<form id="formRSO" class="invisible" action="/php/newRSO.php" method="get">
+		<label>RSO Name</label><br>
+		<input type="text" name="rsoName" placeholder="Name"></input><br>
 
+		<label>User 1</label><br>
+		<input type="text" name="user1" placeholder="Username"></input><br>
+		
+		<label>User 2</label><br>
+		<input type="text" name="user2" placeholder="Username"></input><br>
+
+		<label>User 3</label><br>
+		<input type="text" name="user3" placeholder="Username"></input><br>
+
+		<label>User 4</label><br>
+		<input type="text" name="user4" placeholder="Username"></input><br>
+
+		<button type="submit">Create</button>
+	</form>
+
+		
+	<h3>Owner Of</h3>
+	<div id="myRSOList"></div>
 
 	<h3>Your RSOs</h3>
 	<div id="yourRSOList"></div>

@@ -1,12 +1,16 @@
 var joinedParent;
 var rsoParent;
+var myParent;
 
 window.onload = function () {
 	console.log("window Loaded");
 
 	joinedParent = document.getElementById("yourRSOList");
 	rsoParent = document.getElementById("RSOList");
-
+	myParent = document.getElementById("myRSOList");
+	document.getElementById("newRSO").addEventListener("click", function() {
+		showForm();
+	});
 	getRSOs();
 }
 
@@ -21,7 +25,14 @@ function showRSO(rso, isIn) {
 
 	newRSO.children[0].innerHTML = rso.name;
 	newRSO.name = rso.id;
-	if (isIn) {
+	if(isIn == 2){
+		newRSO.children[1].addEventListener("click", function () {
+			deleteRSO(newRSO, rso.adminId);
+		});
+		newRSO.children[1].innerHTML = "Delete";
+		myParent.appendChild(newRSO);	
+	}
+	else if (isIn == 1) {
 		newRSO.children[1].addEventListener("click", function () {
 			leaveRSO(newRSO, rso.id);
 		});
@@ -67,6 +78,22 @@ function leaveRSO(rsoElement, rsoId) {
 	});
 }
 
+function deleteRSO(rsoElement, adminId) {
+	rsoElement.children[1].setAttribute("disabled", "");
+
+	rsoElement.children[1].innerHTML = "Deleted!";
+
+	const url = "/php/deleteRSO.php";
+	fetch(url, {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({adminId})
+	});
+}
+
 
 function getRSOs() {
 	const url = "/php/readRSOs.php"
@@ -84,5 +111,19 @@ function getRSOs() {
 			for (const rso of res.otherData) {
 				showRSO(rso, 0);
 			}
+			if(res.isAdmin == 1)
+				console.log("we admin");
+				showRSO(res.myRSO, 2);
 		});
 }
+
+function showForm(){
+	console.log("button clicked");
+	const form = document.getElementById("formRSO");
+	if(form.classList.contains("invisible")){
+		form.classList.remove("invisible");
+	} else {
+		form.classList.add("invisible");
+	}
+}
+

@@ -36,7 +36,8 @@ CREATE TABLE Event(
 	name VARCHAR(20) NOT NULL,
 	category VARCHAR(20),
 	description TEXT,
-	time DATETIME, 
+	time TIME, 
+	date DATE,
 	location VARCHAR(100),
 	phoneNumber VARCHAR(20),
 	email VARCHAR(320),
@@ -76,6 +77,28 @@ CREATE TABLE IsInRSO(
 	FOREIGN KEY (userId) REFERENCES User(id),
 	FOREIGN KEY (rsoId) REFERENCES RSO(id)
 );
+
+CREATE TRIGGER AfterRSOInsert BEFORE INSERT
+ON RSO
+FOR EACH ROW
+INSERT INTO Admin (id)
+VALUES (NEW.adminId);
+
+DELIMITER //
+CREATE TRIGGER BeforeAdminDelete BEFORE DELETE 
+ON Admin 
+FOR EACH ROW
+BEGIN 
+	DELETE FROM IsInRSO i WHERE EXISTS (SELECT *
+							    	 FROM RSO r
+								 WHERE r.adminId = OLD.id
+								 AND r.id = i.rsoId);
+	DELETE FROM RSO WHERE adminId = OLD.id; 
+
+END;
+//
+DELIMITER ;
+
 
 INSERT INTO University (name) VALUES ('UCF');
 

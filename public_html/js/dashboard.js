@@ -17,6 +17,9 @@ window.onload = function () {
 			}
 		});
 
+	document.getElementById("newEvent").addEventListener("click", function(){
+		showForm();
+	})
 	searchEvents();
 };
 
@@ -67,4 +70,12 @@ function searchEvents() {
 		});
 }
 
-
+function showForm(){
+	console.log("button clicked");
+	const form = document.getElementById("formEvent");
+	if(form.classList.contains("invisible")){
+		form.classList.remove("invisible");
+	} else {
+		form.classList.add("invisible");
+	}
+}
