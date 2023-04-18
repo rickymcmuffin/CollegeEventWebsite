@@ -28,7 +28,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 				WHERE ownerId = $userId";
 		$result = mysqli_query($conn, $query);
 		if (!$result) {
-			header("Location: /dashboard/dashboard.php?success=bruh?error=" . mysqli_error($conn));
+			header("Location: /dashboard/dashboard.php?error=" . mysqli_error($conn));
 			exit();
 		}
 		$univId = mysqli_fetch_assoc($result)['id'];
@@ -42,14 +42,15 @@ if (isset($_SESSION['username']) && isset($_SESSION['userId'])) {
 			VALUES ('$name', '$numStudents', '$description', '$location', $userId)";
 	}
 
-	mysqli_query($conn, $query);
+	$result = mysqli_query($conn, $query);
 
 	if (!$result) {
-		header("Location: /dashboard/dashboard.php?success=bruh?error=" . mysqli_error($conn));
+		header("Location: /dashboard/dashboard.php?success=bruh1?error=" . mysqli_error($conn));
 		exit();
 	}
 
 	$_SESSION['SuperAdmin'] = 1;
+
 	
 	header("Location: /dashboard/dashboard.php?success=success");
 	exit();
